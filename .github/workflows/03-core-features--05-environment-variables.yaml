@@ -19,11 +19,13 @@ jobs:
           echo "STEP_VAR:     $STEP_VAR"       # visible only here
 
       - name: Inspect scopes job 1 step 2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY }}
         run: |
           echo "WORKFLOW_VAR: $WORKFLOW_VAR"         # visible
           echo "JOB_VAR:      $JOB_VAR"              # visible
-          echo "STEP_VAR:     ${{secrets.aws_key}}"  # not set here
-
+          echo "STEP_VAR:     ${STEP_VAR:-<UNSET>}"  # not set here
+          echo "aws key:     ${AWS_ACCESS_KEY_ID:-<UNSET>}" # visible only here
   job-2:
     runs-on: ubuntu-24.04
     steps:
